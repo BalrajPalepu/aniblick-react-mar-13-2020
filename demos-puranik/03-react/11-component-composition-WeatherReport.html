@@ -6,17 +6,82 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Document</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+        <style>
+            .weather-report {
+                padding: 20px;
+                border: 1px solid crimson;
+                border-radius: 5px;
+                margin: 20px;
+                background-color: lightgoldenrodyellow;
+            }
+        </style>
     </head>
     <body>
         <div id="root"></div>
-
         <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.4.2/umd/react.development.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.4.2/umd/react-dom.development.js"></script>
-        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
-
         <script type="text/babel">
-            // Step 1: Copy over code from the previous exercise. Create a separate RainfallReport component and use it within the WeatherReport component. Pass it the props it requires.
+            function RainfallReport( { rainfall, lastFiveDaysRainfall } ) {
+                return (
+                    <div>
+                        <strong>Rainfall data</strong>
+                        <br />
+                        <div>Rainfall today: {rainfall} mm</div>
+                        <div>Last 5 days rainfall: {lastFiveDaysRainfall.join( ', ' )} (all in mm)</div>
+                    </div>
+                );
+            }
+
+            function WeatherReport( { min, max, city, date, inCelsius, TemperatureStats, ...rainfallDetails } ) {
+                const stats = new TemperatureStats( min, max );
+
+                return (
+                    <div className="weather-report">
+                        <h2>City: {city}</h2> on {date.toDateString()}
+                        <div>
+                            <strong>Temperatures</strong>
+                            <br />
+                            <div>Min: {inCelsius( stats.min ).toFixed(1)} C</div>
+                            <div>Max: {inCelsius( stats.max ).toFixed(1)} C</div>
+                        </div>
+                        <RainfallReport {...rainfallDetails} />
+                    </div>
+                )
+            }
+
+            const rainfall = 12.5, min = 50, max = 72, city = 'San Jose', z = true;
+            const lastFiveDaysRainfall = [ 3.2, 0, 10.5, 9.0, 11.2 ];
+
+            const date = new Date();
+
+            function inCelsius( tempInFarenheit ) {
+                return ( 5 / 9 ) * ( tempInFarenheit - 32 );
+            }
+
+            class TemperatureStats {
+                constructor( min, max ) {
+                    this.min = min;
+                    this.max = max;
+                }
+            }
+
+            // Step 1: Render a WeatherReport element and pass data of different types as props
+            // Step 3: Gather all the props to be passed in an object (say props), and pass it using props spread syntax ({ ...props } when creating the element)
+            const propsForWR = {
+                rainfall,
+                min,
+                max,
+                city,
+                z,
+                lastFiveDaysRainfall,
+                date,
+                inCelsius,
+                TemperatureStats
+            };
+
+            // rainfall={12.5} min={50} max={72} city="San Jose" inCelsius={inCelsius} TemperatureStats={TemperatureStats} etc.
+            ReactDOM.render( <WeatherReport {...propsForWR} />, document.getElementById( 'root' ) );
         </script>
     </body>
 </html>
