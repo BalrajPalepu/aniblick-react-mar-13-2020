@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="root"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.13.0/umd/react.development.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.13.0/umd/react-dom.development.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+        <Script type="text/babel">
+            /*
+            5. Define a function component called TaskInput that shall take user input in your todo list app. The TaskInput component shows a text input, and a button. Enclose the 2 inside a form element and return the form element. Render an TaskInput element.
+            */
+           function TaskInput( { message, buttonText } ) {
+                return (
+                    <form>
+                        <div>{message}</div>
+                        <input type="text" />
+                        <button>{buttonText}</button>
+                    </form>
+                );
+           }
+
+           ReactDOM.render( 
+               <TaskInput
+                    message="What would like to do?"
+                    buttonText="Add task" />,
+                document.getElementById( 'root' )
+            );
+        </Script>
+    </body>
+</html>
